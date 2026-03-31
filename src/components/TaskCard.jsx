@@ -14,7 +14,7 @@ function cycleStatus(current) {
   return null;
 }
 
-export default function TaskCard({ task, taskNum, status, isAdmin, onStatusChange, note, onNoteChange, comment, onCommentChange }) {
+export default function TaskCard({ task, taskNum, status, isAdmin, onStatusChange, comment, onCommentChange, solUnlocked, onSolUnlockChange }) {
   const [showSol, setShowSol] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [commentDraft, setCommentDraft] = useState('');
@@ -63,16 +63,28 @@ export default function TaskCard({ task, taskNum, status, isAdmin, onStatusChang
 
         {task.sol && (
           <div className={styles.solWrap}>
-            {!showSol ? (
-              <button className={`${styles.solBtn} printHide`} onClick={() => setShowSol(true)}>
-                Prikaži rješenje
+            {isAdmin && (
+              <button
+                className={`${styles.solUnlockBtn} printHide ${solUnlocked ? styles.solUnlockedBtn : ''}`}
+                onClick={() => onSolUnlockChange(!solUnlocked)}
+              >
+                {solUnlocked ? '🔓 Rješenje vidljivo učeniku' : '🔒 Otključaj rješenje za učenika'}
               </button>
-            ) : (
-              <div className={styles.sol}>
-                <span className={styles.solLabel}>Rješenje:</span>
-                {task.sol}
-                <button className={styles.solClose} onClick={() => setShowSol(false)}>sakrij</button>
-              </div>
+            )}
+            {(isAdmin || solUnlocked) && (
+              !showSol ? (
+                <button className={`${styles.solBtn} printHide`} onClick={() => setShowSol(true)}>
+                  Prikaži rješenje
+                </button>
+              ) : (
+                <div className={styles.solBox}>
+                  <div className={styles.solHeader}>
+                    <span className={styles.solLabel}>Rješenje</span>
+                    <button className={`${styles.solClose} printHide`} onClick={() => setShowSol(false)}>✕ sakrij</button>
+                  </div>
+                  <div className={styles.solText}>{task.sol}</div>
+                </div>
+              )
             )}
           </div>
         )}
@@ -105,16 +117,6 @@ export default function TaskCard({ task, taskNum, status, isAdmin, onStatusChang
           </div>
         )}
 
-        <div className={styles.noteWrap}>
-          <textarea
-            className={`${styles.noteInput} printHide`}
-            value={note || ''}
-            onChange={e => onNoteChange(e.target.value)}
-            onInput={e => { e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }}
-            placeholder="Bilješke (samo na ovom uređaju)..."
-            rows={1}
-          />
-        </div>
       </div>
     </div>
   );

@@ -12,6 +12,24 @@ import './index.css';
 
 const STATE_DOC = doc(db, 'state', 'tasks');
 
+// Day 1 = March 31 2026 in CET/CEST (Europe/Zagreb)
+const START_CET = '2026-03-31';
+
+function getCETDayIndex() {
+  const todayCET = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Zagreb',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());
+  const [sy, sm, sd] = START_CET.split('-').map(Number);
+  const [ty, tm, td] = todayCET.split('-').map(Number);
+  const start = new Date(sy, sm - 1, sd);
+  const today = new Date(ty, tm - 1, td);
+  return Math.round((today - start) / 86400000);
+}
+
+// Computed once on page load; changes at midnight but that's fine
+const CET_DAY_INDEX = getCETDayIndex();
+
 function calcStreak(fullDoc) {
   let streak = 0;
   for (let di = 0; di < DAYS.length; di++) {
@@ -31,28 +49,36 @@ function calcStreak(fullDoc) {
 }
 
 export default function App() {
-  const [currentDay, setCurrentDay] = useState(0);
+  const [currentDay, setCurrentDay] = useState(
+    () => Math.max(0, Math.min(CET_DAY_INDEX, DAYS.length - 1))
+  );
   const [fullDoc, setFullDoc] = useState({});
-  const [notes, setNotes] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('erik-notes') || '{}'); }
-    catch { return {}; }
-  });
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [loading, setLoading] = useState(true);
   const touchStartX = useRef(null);
 
-  // Derive taskStates (status keys) and comments from fullDoc
+  // Derive taskStates, comments, solUnlocked, and adminUnlocked from fullDoc
   const taskStates = {};
   const comments = {};
+  const solUnlocked = {};
+  const adminUnlocked = {}; // adminUnlocked[dayIndex] = true means admin unlocked that future day
   for (const [k, v] of Object.entries(fullDoc)) {
     if (k.startsWith('comment_')) {
       comments[k.slice(8)] = v;
+    } else if (k.startsWith('sol_')) {
+      solUnlocked[k.slice(4)] = v;
+    } else if (k.startsWith('unlock_')) {
+      adminUnlocked[parseInt(k.slice(7))] = v;
     } else {
       taskStates[k] = v;
     }
   }
+
+  // A day is accessible to non-admins if it's today/past, or admin explicitly unlocked it
+  const isDayAccessible = (dayIndex) =>
+    dayIndex <= CET_DAY_INDEX || !!adminUnlocked[dayIndex];
 
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => setIsAdmin(!!user));
@@ -101,11 +127,36 @@ export default function App() {
     }
   };
 
-  const handleNoteChange = (dayIndex, subj, taskIdx, value) => {
-    const key = `${dayIndex}_${subj}_${taskIdx}`;
-    const updated = { ...notes, [key]: value };
-    setNotes(updated);
-    localStorage.setItem('erik-notes', JSON.stringify(updated));
+  const handleSolUnlockChange = async (dayIndex, subj, taskIdx, unlocked) => {
+    if (!isAdmin) return;
+    const key = `sol_${dayIndex}_${subj}_${taskIdx}`;
+    const old = fullDoc;
+    const updated = { ...fullDoc };
+    if (!unlocked) delete updated[key];
+    else updated[key] = true;
+    setFullDoc(updated);
+    try {
+      await setDoc(STATE_DOC, updated);
+    } catch (err) {
+      console.error('Save failed:', err);
+      setFullDoc(old);
+    }
+  };
+
+  const handleDayUnlock = async (dayIndex, unlocked) => {
+    if (!isAdmin) return;
+    const key = `unlock_${dayIndex}`;
+    const old = fullDoc;
+    const updated = { ...fullDoc };
+    if (!unlocked) delete updated[key];
+    else updated[key] = true;
+    setFullDoc(updated);
+    try {
+      await setDoc(STATE_DOC, updated);
+    } catch (err) {
+      console.error('Save failed:', err);
+      setFullDoc(old);
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -116,7 +167,10 @@ export default function App() {
     if (touchStartX.current === null) return;
     const delta = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(delta) > 60) {
-      if (delta > 0 && currentDay < DAYS.length - 1) setCurrentDay(d => d + 1);
+      if (delta > 0 && currentDay < DAYS.length - 1) {
+        const next = currentDay + 1;
+        if (isAdmin || isDayAccessible(next)) setCurrentDay(next);
+      }
       if (delta < 0 && currentDay > 0) setCurrentDay(d => d - 1);
     }
     touchStartX.current = null;
@@ -162,6 +216,8 @@ export default function App() {
           currentDay={currentDay}
           onSwitch={setCurrentDay}
           taskStates={taskStates}
+          isAdmin={isAdmin}
+          isDayAccessible={isDayAccessible}
         />
       </div>
       <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
@@ -172,10 +228,13 @@ export default function App() {
           taskStates={taskStates}
           isAdmin={isAdmin}
           onStatusChange={handleStatusChange}
-          notes={notes}
-          onNoteChange={handleNoteChange}
           comments={comments}
           onCommentChange={handleCommentChange}
+          solUnlocked={solUnlocked}
+          onSolUnlockChange={handleSolUnlockChange}
+          isFutureDay={currentDay > CET_DAY_INDEX}
+          isDayAdminUnlocked={!!adminUnlocked[currentDay]}
+          onDayUnlock={(unlocked) => handleDayUnlock(currentDay, unlocked)}
         />
       </div>
       {showLogin && (

@@ -38,7 +38,21 @@ body {
 }
 
 @media print {
-  .noPrint { display: none !important; }
+  .noPrint   { display: none !important; }
   .printHide { display: none !important; }
-  body { background: white !important; }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: white !important;
+    font-size: 13px;
+    color: #111;
+  }
+
+  #root {
+    min-height: unset;
+  }
 }

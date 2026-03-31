@@ -29,7 +29,7 @@ function dayProgress(di, taskStates) {
   return { correct, total };
 }
 
-export default function DayTabs({ currentDay, onSwitch, taskStates }) {
+export default function DayTabs({ currentDay, onSwitch, taskStates, isAdmin, isDayAccessible }) {
   const tabRefs = useRef([]);
 
   useEffect(() => {
@@ -42,8 +42,11 @@ export default function DayTabs({ currentDay, onSwitch, taskStates }) {
     <div className={styles.wrap}>
       <div className={styles.tabs}>
         {DAYS.map((d, i) => {
-          const status = dayStatus(i, taskStates);
+          const accessible = isDayAccessible(i);
+          const locked = !accessible;
+          const status = accessible ? dayStatus(i, taskStates) : 'none';
           const { correct, total } = dayProgress(i, taskStates);
+
           return (
             <button
               key={i}
@@ -52,14 +55,20 @@ export default function DayTabs({ currentDay, onSwitch, taskStates }) {
                 styles.tab,
                 i === currentDay ? styles.active : '',
                 status === 'all-correct' ? styles.done : '',
+                locked ? styles.locked : '',
               ].join(' ')}
-              onClick={() => onSwitch(i)}
+              onClick={() => {
+                if (isAdmin || accessible) onSwitch(i);
+              }}
             >
-              {status !== 'none' && (
-                <span className={styles.dot} />
-              )}
+              {locked
+                ? <span className={styles.lockIcon}>🔒</span>
+                : status !== 'none' && <span className={styles.dot} />
+              }
               Dan {d.day}
-              <span className={styles.progress}>{correct}/{total}</span>
+              {accessible && (
+                <span className={styles.progress}>{correct}/{total}</span>
+              )}
             </button>
           );
         })}

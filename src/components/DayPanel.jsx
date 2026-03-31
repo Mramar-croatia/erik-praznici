@@ -6,7 +6,7 @@ const SECTIONS = [
   { key: 'phys', label: 'FIZIKA',     icon: '⚗️',  note: '✓ Kalkulator ok'  },
 ];
 
-export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onStatusChange, notes, onNoteChange, comments, onCommentChange }) {
+export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onStatusChange, comments, onCommentChange, solUnlocked, onSolUnlockChange, isFutureDay, isDayAdminUnlocked, onDayUnlock }) {
   const subjects = ['math', 'phys'];
 
   // Count stats
@@ -19,20 +19,27 @@ export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onSta
 
   return (
     <div className={styles.panel}>
+      {isAdmin && isFutureDay && (
+        <div className={`${styles.lockBanner} ${isDayAdminUnlocked ? styles.lockBannerUnlocked : ''} noPrint`}>
+          <span className={styles.lockBannerIcon}>{isDayAdminUnlocked ? '🔓' : '🔒'}</span>
+          <span className={styles.lockBannerText}>
+            {isDayAdminUnlocked
+              ? 'Učenik može vidjeti ovaj dan.'
+              : 'Učenik ne može vidjeti ovaj dan — dan je zaključan.'}
+          </span>
+          <button
+            className={styles.lockBannerBtn}
+            onClick={() => onDayUnlock(!isDayAdminUnlocked)}
+          >
+            {isDayAdminUnlocked ? 'Zaključaj' : 'Otključaj za učenika'}
+          </button>
+        </div>
+      )}
       <div className={styles.dayHeader}>
         <div className={styles.dayNumber}>Dan {dayData.day}</div>
         <div className={styles.dayMeta}>
-          <span className={styles.pillMath}>Matematika</span>
-          <span className={styles.pillPhys}>Fizika</span>
           <span className={styles.dayDone}>{correct} / {total} točno</span>
         </div>
-      </div>
-
-      <div className={styles.legend}>
-        <span className={`${styles.badge} ${styles.easy}`}>Lakše</span>
-        <span className={`${styles.badge} ${styles.mid}`}>Srednje</span>
-        <span className={`${styles.badge} ${styles.hard}`}>Zahtjevnije</span>
-        {isAdmin && <span className={styles.adminHint}>— klikni status: ? → ✓ → ~ → ✗ → ?</span>}
       </div>
 
       {SECTIONS.map(({ key, label, icon, note }) => (
@@ -53,10 +60,10 @@ export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onSta
                   status={taskStates[taskKey] ?? null}
                   isAdmin={isAdmin}
                   onStatusChange={(newStatus) => onStatusChange(dayIndex, key, i, newStatus)}
-                  note={notes[taskKey]}
-                  onNoteChange={(v) => onNoteChange(dayIndex, key, i, v)}
                   comment={comments[taskKey]}
                   onCommentChange={(v) => onCommentChange(dayIndex, key, i, v)}
+                  solUnlocked={!!solUnlocked[taskKey]}
+                  onSolUnlockChange={(v) => onSolUnlockChange(dayIndex, key, i, v)}
                 />
               );
             })}

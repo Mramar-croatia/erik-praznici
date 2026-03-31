@@ -80,23 +80,112 @@
   border-radius: 4px;
 }
 
-.solWrap { margin-top: 4px; }
+.solWrap { margin-top: 6px; display: flex; flex-direction: column; gap: 8px; }
+
+.solUnlockBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFF8F0;
+  border: 1px solid #E8C89A;
+  color: #7A4500;
+  border-radius: 7px;
+  padding: 4px 12px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+  align-self: flex-start;
+}
+.solUnlockBtn:hover { background: #FFF0DC; border-color: #C8900A; }
+.solUnlockedBtn {
+  background: #EDF7F1;
+  border-color: #7EC8A4;
+  color: var(--phys);
+}
+.solUnlockedBtn:hover { background: #E0F2E9; border-color: var(--phys-mid); }
+
 .solBtn {
-  background: none; border: 1px solid #B76E00; color: #B76E00;
-  border-radius: 6px; padding: 2px 10px; font-size: 0.78rem;
-  cursor: pointer; font-family: 'DM Sans', sans-serif;
-  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #FFF8EC 0%, #FFE8B5 100%);
+  border: 1.5px solid #D4900A;
+  color: #5C3700;
+  border-radius: 9px;
+  padding: 7px 18px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.18s ease;
+  align-self: flex-start;
+  box-shadow: 0 1px 5px rgba(180, 100, 0, 0.12);
+  letter-spacing: 0.01em;
 }
-.solBtn:hover { background: #FFF3E0; }
-.sol {
-  font-size: 0.82rem; color: var(--phys); background: var(--phys-light);
-  border-radius: 6px; padding: 6px 10px; line-height: 1.5;
+.solBtn::before { content: '💡'; font-size: 0.9rem; }
+.solBtn:hover {
+  background: linear-gradient(135deg, #FFE8B5 0%, #FFD060 100%);
+  border-color: #A86200;
+  box-shadow: 0 3px 12px rgba(180, 100, 0, 0.22);
+  transform: translateY(-1px);
 }
-.solLabel { font-weight: 600; margin-right: 4px; }
+.solBtn:active { transform: translateY(0); box-shadow: 0 1px 5px rgba(180, 100, 0, 0.12); }
+
+@keyframes solReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.solBox {
+  background: white;
+  border: 1.5px solid #A8D5B8;
+  border-left: 4px solid var(--phys);
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 12px rgba(26, 94, 53, 0.08);
+  animation: solReveal 0.2s ease;
+}
+
+.solHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #D4EDE0;
+}
+
+.solLabel {
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: var(--phys);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex: 1;
+}
+
+.solText {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+
 .solClose {
-  background: none; border: none; color: var(--muted); font-size: 0.75rem;
-  cursor: pointer; margin-left: 8px; text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid #C8DFD2;
+  color: var(--muted);
+  font-size: 0.72rem;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
 }
+.solClose:hover { border-color: #999; color: var(--text); }
 
 .comment {
   font-size: 0.82rem; color: var(--math); background: var(--math-light);
@@ -133,19 +222,29 @@
   padding: 3px 12px; font-size: 0.78rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
 }
 
-.noteWrap { margin-top: 4px; }
-.noteInput {
-  width: 100%; border: 1px solid var(--border); border-radius: 6px;
-  padding: 5px 10px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
-  resize: none; color: var(--text); background: #FAFAF7; min-height: 32px;
-  overflow: hidden; transition: border-color 0.15s;
-}
-.noteInput:focus { outline: none; border-color: #AAAAAA; background: white; }
-.noteInput::placeholder { color: #BBB; }
 
 @media (max-width: 600px) {
   .task {
     padding: 14px;
     grid-template-columns: 36px 1fr;
   }
+}
+
+@media print {
+  .task {
+    break-inside: avoid;
+    padding: 10px 14px;
+    border-bottom: 1px solid #DDD !important;
+    background: white !important;
+  }
+  .task.correct { background: #F4FBF6 !important; }
+  .task.wrong   { background: #FFF5F5 !important; }
+  .task.partial { background: #FFF8F0 !important; }
+  .solBox {
+    box-shadow: none;
+    border: 1.5px solid #A8D5B8 !important;
+    border-left: 4px solid #1A5E35 !important;
+    background: #F2FAF5 !important;
+  }
+  .solUnlockBtn { display: none !important; }
 }

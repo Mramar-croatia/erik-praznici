@@ -10,6 +10,56 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Admin lock banner for future days */
+.lockBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFF5F5;
+  border: 1.5px solid #F5C0C0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.lockBannerUnlocked {
+  background: #EDF7F1;
+  border-color: #7EC8A4;
+}
+
+.lockBannerIcon { font-size: 1rem; flex-shrink: 0; }
+
+.lockBannerText {
+  flex: 1;
+  font-size: 0.84rem;
+  color: #5A1A1A;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.lockBannerUnlocked .lockBannerText { color: var(--phys); }
+
+.lockBannerBtn {
+  background: #1B3A6B;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.lockBannerBtn:hover { background: #2A4F8F; }
+.lockBannerUnlocked .lockBannerBtn {
+  background: #C0392B;
+}
+.lockBannerUnlocked .lockBannerBtn:hover { background: #A93226; }
+
 .dayHeader { margin-bottom: 20px; }
 
 .dayNumber {
@@ -154,4 +204,49 @@
   .panel { padding: 20px 12px 60px; }
   .dayNumber { font-size: 2rem; }
   .sectionHeader { padding: 12px 14px; }
+}
+
+@media print {
+  .panel {
+    padding: 0;
+    max-width: 100%;
+    animation: none;
+  }
+
+  .dayHeader { margin-bottom: 12px; }
+
+  .dayNumber {
+    font-size: 1.8rem;
+    color: #1B3A6B !important;
+  }
+
+  .legend { display: none; }
+
+  .section {
+    margin-bottom: 20px;
+    break-inside: avoid;
+  }
+
+  .sectionHeader {
+    padding: 10px 14px;
+    background: transparent !important;
+    border-bottom: 2px solid currentColor;
+    border-radius: 0;
+  }
+
+  .math { border-color: #1B3A6B !important; }
+  .phys { border-color: #1A5E35 !important; }
+
+  .math .sectionLabel { color: #1B3A6B !important; }
+  .phys .sectionLabel { color: #1A5E35 !important; }
+
+  .sectionIcon { display: none; }
+
+  .tasks {
+    box-shadow: none;
+    border: 1px solid #DDD;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .congrats { display: none; }
 }
