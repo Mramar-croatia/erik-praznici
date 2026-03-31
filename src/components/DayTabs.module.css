@@ -1,9 +1,6 @@
 .wrap {
   background: var(--math);
   padding: 0 32px 16px;
-  position: sticky;
-  top: 96px;
-  z-index: 99;
 }
 
 .tabs {
@@ -56,5 +53,5 @@
 }
 
 @media (max-width: 600px) {
-  .wrap { padding: 0 16px 12px; top: 80px; }
+  .wrap { padding: 0 16px 12px; }
 }

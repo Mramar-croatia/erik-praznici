@@ -2,10 +2,6 @@
   background: var(--math);
   color: white;
   padding: 28px 32px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 24px rgba(27,58,107,0.18);
 }
 
 .headerTop {

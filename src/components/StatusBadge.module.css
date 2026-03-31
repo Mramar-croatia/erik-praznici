@@ -49,3 +49,11 @@
 .badge:disabled {
   opacity: 1;
 }
+
+@media (max-width: 600px) {
+  .badge {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+}

@@ -78,5 +78,8 @@
 }
 
 @media (max-width: 600px) {
-  .task { padding: 14px; }
+  .task {
+    padding: 14px;
+    grid-template-columns: 36px 1fr;
+  }
 }

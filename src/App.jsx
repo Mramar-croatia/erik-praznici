@@ -84,17 +84,19 @@ export default function App() {
 
   return (
     <>
-      <Header
-        total={total}
-        correct={correct}
-        isAdmin={isAdmin}
-        onAdminClick={() => setShowLogin(true)}
-      />
-      <DayTabs
-        currentDay={currentDay}
-        onSwitch={setCurrentDay}
-        taskStates={taskStates}
-      />
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 4px 24px rgba(27,58,107,0.18)' }}>
+        <Header
+          total={total}
+          correct={correct}
+          isAdmin={isAdmin}
+          onAdminClick={() => setShowLogin(true)}
+        />
+        <DayTabs
+          currentDay={currentDay}
+          onSwitch={setCurrentDay}
+          taskStates={taskStates}
+        />
+      </div>
       <DayPanel
         key={currentDay}
         dayData={DAYS[currentDay]}
