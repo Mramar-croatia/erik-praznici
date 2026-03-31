@@ -17,6 +17,18 @@ function dayStatus(di, taskStates) {
   return 'none';
 }
 
+function dayProgress(di, taskStates) {
+  const subjects = ['math', 'phys'];
+  let correct = 0, total = 0;
+  subjects.forEach(subj => {
+    DAYS[di][subj].forEach((_, i) => {
+      total++;
+      if (taskStates[`${di}_${subj}_${i}`] === 'correct') correct++;
+    });
+  });
+  return { correct, total };
+}
+
 export default function DayTabs({ currentDay, onSwitch, taskStates }) {
   const tabRefs = useRef([]);
 
@@ -31,6 +43,7 @@ export default function DayTabs({ currentDay, onSwitch, taskStates }) {
       <div className={styles.tabs}>
         {DAYS.map((d, i) => {
           const status = dayStatus(i, taskStates);
+          const { correct, total } = dayProgress(i, taskStates);
           return (
             <button
               key={i}
@@ -46,6 +59,7 @@ export default function DayTabs({ currentDay, onSwitch, taskStates }) {
                 <span className={styles.dot} />
               )}
               Dan {d.day}
+              <span className={styles.progress}>{correct}/{total}</span>
             </button>
           );
         })}

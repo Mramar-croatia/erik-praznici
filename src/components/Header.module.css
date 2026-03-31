@@ -89,9 +89,38 @@
   opacity: 0.8;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  min-width: 90px;
+  min-width: 120px;
   text-align: right;
 }
+
+.streak {
+  display: inline-block;
+  margin-left: 10px;
+  background: rgba(255,200,0,0.2);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-size: 0.78rem;
+  opacity: 1;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionBtn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.actionBtn:hover { background: rgba(255,255,255,0.25); }
 
 @media (max-width: 600px) {
   .header { padding: 20px 16px 14px; }

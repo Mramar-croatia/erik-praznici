@@ -52,6 +52,15 @@
   background: var(--phys);
 }
 
+.progress {
+  font-size: 0.72rem;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+  margin-left: 2px;
+}
+.tab.active .progress { opacity: 0.8; }
+.tab.done .progress { color: #7EC8A4; opacity: 1; font-weight: 600; }
+
 @media (max-width: 600px) {
   .wrap { padding: 0 16px 12px; }
 }

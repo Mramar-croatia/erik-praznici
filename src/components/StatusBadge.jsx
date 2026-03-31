@@ -1,13 +1,14 @@
+// status: null | 'correct' | 'partial' | 'wrong'
 import styles from './StatusBadge.module.css';
 
-// status: null | 'correct' | 'wrong'
-// isAdmin: whether to show clickable controls
 export default function StatusBadge({ status, isAdmin, onCycle }) {
-  const label = status === 'correct' ? '✓' : status === 'wrong' ? '✗' : '?';
+  const label = status === 'correct' ? '✓' : status === 'wrong' ? '✗' : status === 'partial' ? '~' : '?';
   const cls = status === 'correct'
     ? styles.correct
     : status === 'wrong'
     ? styles.wrong
+    : status === 'partial'
+    ? styles.partial
     : styles.unknown;
 
   return (

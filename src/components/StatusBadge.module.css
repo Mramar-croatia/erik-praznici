@@ -36,6 +36,13 @@
   box-shadow: 0 2px 8px rgba(183,28,28,0.18);
 }
 
+.partial {
+  border-color: #E65100;
+  background: #FFF3E0;
+  color: #E65100;
+  box-shadow: 0 2px 8px rgba(230,81,0,0.18);
+}
+
 .clickable {
   cursor: pointer;
 }

@@ -19,6 +19,9 @@
 .task.wrong { background: #FFF8F8; }
 .task.wrong .text { opacity: 0.55; }
 
+.task.partial { background: #FFF8F0; }
+.task.partial .text { opacity: 0.65; }
+
 .body {
   display: flex;
   flex-direction: column;
@@ -76,6 +79,69 @@
   display: block;
   border-radius: 4px;
 }
+
+.solWrap { margin-top: 4px; }
+.solBtn {
+  background: none; border: 1px solid #B76E00; color: #B76E00;
+  border-radius: 6px; padding: 2px 10px; font-size: 0.78rem;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+.solBtn:hover { background: #FFF3E0; }
+.sol {
+  font-size: 0.82rem; color: var(--phys); background: var(--phys-light);
+  border-radius: 6px; padding: 6px 10px; line-height: 1.5;
+}
+.solLabel { font-weight: 600; margin-right: 4px; }
+.solClose {
+  background: none; border: none; color: var(--muted); font-size: 0.75rem;
+  cursor: pointer; margin-left: 8px; text-decoration: underline;
+}
+
+.comment {
+  font-size: 0.82rem; color: var(--math); background: var(--math-light);
+  border-radius: 6px; padding: 6px 10px; line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 6px;
+}
+.commentIcon { flex-shrink: 0; }
+.commentText { flex: 1; }
+.commentEditBtn {
+  background: none; border: none; color: var(--math-mid); font-size: 0.75rem;
+  cursor: pointer; text-decoration: underline; white-space: nowrap; flex-shrink: 0;
+}
+.addCommentBtn {
+  background: none; border: 1px dashed #CCC; color: var(--muted);
+  border-radius: 6px; padding: 2px 10px; font-size: 0.75rem;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s, color 0.15s;
+}
+.addCommentBtn:hover { border-color: var(--math); color: var(--math); }
+.commentEdit { display: flex; flex-direction: column; gap: 4px; }
+.commentInput {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 10px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  resize: none; color: var(--text); background: white;
+}
+.commentInput:focus { outline: none; border-color: var(--math-mid); }
+.commentBtns { display: flex; gap: 6px; }
+.commentSave {
+  background: var(--math); color: white; border: none; border-radius: 6px;
+  padding: 3px 12px; font-size: 0.78rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.commentCancel {
+  background: none; border: 1px solid #CCC; color: var(--muted); border-radius: 6px;
+  padding: 3px 12px; font-size: 0.78rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+
+.noteWrap { margin-top: 4px; }
+.noteInput {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 10px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  resize: none; color: var(--text); background: #FAFAF7; min-height: 32px;
+  overflow: hidden; transition: border-color 0.15s;
+}
+.noteInput:focus { outline: none; border-color: #AAAAAA; background: white; }
+.noteInput::placeholder { color: #BBB; }
 
 @media (max-width: 600px) {
   .task {

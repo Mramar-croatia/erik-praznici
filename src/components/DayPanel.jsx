@@ -6,14 +6,16 @@ const SECTIONS = [
   { key: 'phys', label: 'FIZIKA',     icon: '⚗️',  note: '✓ Kalkulator ok'  },
 ];
 
-export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onStatusChange }) {
+export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onStatusChange, notes, onNoteChange, comments, onCommentChange }) {
   const subjects = ['math', 'phys'];
 
   // Count stats
   const total = subjects.reduce((s, subj) => s + dayData[subj].length, 0);
   const correct = subjects.reduce((s, subj) =>
     s + dayData[subj].filter((_, i) => taskStates[`${dayIndex}_${subj}_${i}`] === 'correct').length, 0);
-  const allDone = correct === total;
+  const allDone = subjects.every(subj =>
+    dayData[subj].every((_, i) => taskStates[`${dayIndex}_${subj}_${i}`] === 'correct')
+  );
 
   return (
     <div className={styles.panel}>
@@ -30,7 +32,7 @@ export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onSta
         <span className={`${styles.badge} ${styles.easy}`}>Lakše</span>
         <span className={`${styles.badge} ${styles.mid}`}>Srednje</span>
         <span className={`${styles.badge} ${styles.hard}`}>Zahtjevnije</span>
-        {isAdmin && <span className={styles.adminHint}>— klikni status za promjenu: ? → ✓ → ✗ → ?</span>}
+        {isAdmin && <span className={styles.adminHint}>— klikni status: ? → ✓ → ~ → ✗ → ?</span>}
       </div>
 
       {SECTIONS.map(({ key, label, icon, note }) => (
@@ -41,16 +43,23 @@ export default function DayPanel({ dayData, dayIndex, taskStates, isAdmin, onSta
             <div className={styles.sectionNote}>{note}</div>
           </div>
           <div className={styles.tasks}>
-            {dayData[key].map((task, i) => (
-              <TaskCard
-                key={i}
-                task={task}
-                taskNum={i + 1}
-                status={taskStates[`${dayIndex}_${key}_${i}`] ?? null}
-                isAdmin={isAdmin}
-                onStatusChange={(newStatus) => onStatusChange(dayIndex, key, i, newStatus)}
-              />
-            ))}
+            {dayData[key].map((task, i) => {
+              const taskKey = `${dayIndex}_${key}_${i}`;
+              return (
+                <TaskCard
+                  key={i}
+                  task={task}
+                  taskNum={i + 1}
+                  status={taskStates[taskKey] ?? null}
+                  isAdmin={isAdmin}
+                  onStatusChange={(newStatus) => onStatusChange(dayIndex, key, i, newStatus)}
+                  note={notes[taskKey]}
+                  onNoteChange={(v) => onNoteChange(dayIndex, key, i, v)}
+                  comment={comments[taskKey]}
+                  onCommentChange={(v) => onCommentChange(dayIndex, key, i, v)}
+                />
+              );
+            })}
           </div>
         </div>
       ))}
