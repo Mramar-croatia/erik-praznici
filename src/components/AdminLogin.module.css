@@ -1,0 +1,122 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--math);
+  margin-bottom: 16px;
+}
+
+.info {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form input {
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form input:focus {
+  border-color: var(--math-mid);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: var(--hard);
+  background: #FFEBEE;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.loginBtn {
+  background: var(--math);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 4px;
+}
+
+.loginBtn:hover { opacity: 0.88; }
+.loginBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.logoutBtn {
+  display: block;
+  width: 100%;
+  background: #FFEBEE;
+  color: var(--hard);
+  border: none;
+  border-radius: 8px;
+  padding: 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-bottom: 10px;
+}
+
+.logoutBtn:hover { opacity: 0.8; }
+
+.cancelBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover { background: #F5F5F5; }

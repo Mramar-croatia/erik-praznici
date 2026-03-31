@@ -1,0 +1,103 @@
+.header {
+  background: var(--math);
+  color: white;
+  padding: 28px 32px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(27,58,107,0.18);
+}
+
+.headerTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 0.82rem;
+  opacity: 0.65;
+  font-weight: 300;
+}
+
+.headerRight {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.calcNotes {
+  text-align: right;
+  font-size: 0.78rem;
+  opacity: 0.65;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.adminBtn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.adminBtn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.adminActive {
+  background: rgba(126,200,164,0.3);
+  border-color: #7EC8A4;
+}
+
+.progressWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progressBg {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 99px;
+  overflow: hidden;
+  min-width: 160px;
+}
+
+.progressFill {
+  height: 100%;
+  background: #7EC8A4;
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.progressLabel {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  min-width: 90px;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .header { padding: 20px 16px 14px; }
+  .calcNotes { display: none; }
+}

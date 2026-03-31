@@ -1,0 +1,157 @@
+.panel {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dayHeader { margin-bottom: 20px; }
+
+.dayNumber {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--math);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.dayMeta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pillMath, .pillPhys {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pillMath { background: var(--math-light); color: var(--math); }
+.pillPhys { background: var(--phys-light); color: var(--phys); }
+
+.dayDone {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.badge {
+  padding: 1px 8px;
+  border-radius: 99px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.easy { background: #E8F5E9; color: var(--easy); }
+.mid  { background: #FFF3E0; color: var(--mid); }
+.hard { background: #FFEBEE; color: var(--hard); }
+
+.adminHint {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* SECTION */
+.section { margin-bottom: 32px; }
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 2px solid transparent;
+}
+
+.math { background: var(--math-light); border-color: var(--math); }
+.phys { background: var(--phys-light); border-color: var(--phys); }
+
+.sectionIcon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.icon_math { background: var(--math); }
+.icon_phys { background: var(--phys); }
+
+.sectionLabel {
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.math .sectionLabel { color: var(--math); }
+.phys .sectionLabel { color: var(--phys); }
+
+.sectionNote {
+  font-size: 0.75rem;
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.math .sectionNote { color: var(--hard); font-weight: 600; }
+.phys .sectionNote { color: var(--phys-mid); }
+
+.tasks {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* CONGRATS */
+.congrats {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #E6F2EA, #F0F7FF);
+  border-radius: var(--radius);
+  border: 1px solid var(--phys-light);
+  margin-top: 20px;
+  animation: fadeUp 0.5s ease;
+}
+
+.congratsIcon { font-size: 2.5rem; margin-bottom: 8px; }
+
+.congrats h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--phys);
+  margin-bottom: 6px;
+}
+
+.congrats p { font-size: 0.85rem; color: var(--muted); }
+
+@media (max-width: 600px) {
+  .panel { padding: 20px 12px 60px; }
+  .dayNumber { font-size: 2rem; }
+  .sectionHeader { padding: 12px 14px; }
+}
